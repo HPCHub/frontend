@@ -1,5 +1,5 @@
 server {
-    server_name api.prontera.info;
+    server_name control.rocketcompute.com;
     client_max_body_size 4G;
     error_log  /hpc_admin/logs/nginx_error.log;
     access_log  /hpc_admin/logs/access.log;

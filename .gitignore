@@ -177,3 +177,4 @@ pip-selfcheck.json
 /project/settings/secret.py
 test
 /configs/deploy.sh
+/configs/flower.conf.py
