@@ -9,7 +9,8 @@ class InviteEmailText(models.Model):
     )
     body = models.TextField(
         null=False, blank=False,
-        verbose_name='Email body'
+        verbose_name='Email body',
+        help_text='Your email address %s and your password %s'
     )
 
     class Meta:
