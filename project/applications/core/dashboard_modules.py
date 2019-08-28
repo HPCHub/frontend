@@ -17,3 +17,12 @@ class RecentRequests(DashboardModule):
         self.children = ConfigRequest.objects.filter(user=context.request.user).order_by('-created_at')[:self.limit]
         if context.request.user.is_superuser:
             self.children = ConfigRequest.objects.order_by('-created_at')[:self.limit]
+
+
+class NewRequest(DashboardModule):
+
+    title = 'New request'
+    template = 'core/new_config.html'
+    limit = 10
+    column = 0
+    order = 0

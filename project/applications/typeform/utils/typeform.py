@@ -59,8 +59,10 @@ def process_form(instance):
         form = TypeForm.objects.filter(form_id=form_id).last()
 
     if form.form_type == 'initial':
-        email = json.loads(instance.answers).get('email')
-        if email:
+        if instance.hidden_id:
+            user = User.objects.get(pk=instance.hidden_id)
+        else:
+            email = json.loads(instance.answers).get('email')
             user = User.objects.filter(email__icontains=email).last()
             if not user:
                 symbols = 'ab1cd2ef3gh4ij5kl6mn7op8qr9stuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -76,8 +78,7 @@ def process_form(instance):
                 user.save()
                 if settings.SEND_CREDENTIALS_TF:
                     send_credentials_mail(pwd, email)
-        else:
-            user = User.objects.get(pk=instance.hidden_id)
+
         conf_req = ConfigRequest.objects.create(
             user=user,
             data=instance.answers,
