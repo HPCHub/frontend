@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 
 INSTALLED_APPS = [
+
     'core',
     'typeform',
     'urlshortener',
     'hpcconfig',
+
+    'jet.dashboard',
+    'jet',
 
     'rest_framework',
     'rest_framework.authtoken',

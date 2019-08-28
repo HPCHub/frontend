@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import ConfigRequest
+
+from .models import ConfigRequest, Formula
 
 # Register your models here.
 
@@ -59,4 +60,7 @@ class ConfigRequestAdmin(admin.ModelAdmin):
         self.preprocess_filter_fields(request)
         return super(ConfigRequestAdmin, self).changelist_view(request)
 
+
 admin.site.register(ConfigRequest, ConfigRequestAdmin)
+
+admin.site.register(Formula)

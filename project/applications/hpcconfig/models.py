@@ -1,7 +1,4 @@
 import json
-
-from django.utils import timezone
-
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -13,11 +10,35 @@ from pygments.lexers.data import JsonLexer
 
 
 class HPCProvider(models.Model):
-    pass
+    name = models.CharField(
+        max_length=80,
+        null=True, blank=True,
+        verbose_name='Provider name'
+    )
+
+    def __str__(self):
+        return self.name
+
 
 
 class Formula(models.Model):
-    pass
+    software_type = models.CharField(
+        max_length=80,
+        null=True, blank=True,
+        verbose_name='Software type'
+    )
+    solver_type = models.CharField(
+        max_length=80,
+        null=True, blank=True,
+        verbose_name='Solver type'
+    )
+    formula = models.TextField(
+        null=True, blank=True,
+        verbose_name='Formula'
+    )
+
+    def __str__(self):
+        return '{} - {}'.format(self.software_type, self.solver_type)
 
 
 class ConfigRequest(models.Model):
