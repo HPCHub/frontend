@@ -6,6 +6,7 @@ from .models import ConfigRequest, Formula
 
 
 class ConfigRequestAdmin(admin.ModelAdmin):
+
     model = ConfigRequest
     list_display = [
         'user',
@@ -25,7 +26,7 @@ class ConfigRequestAdmin(admin.ModelAdmin):
         'pretty_data',
         'software_type',
         'solver_type',
-        'request_config'
+        'request_config',
     ]
     exclude = [
         'data',
