@@ -15,6 +15,7 @@ from .static import *
 from .templates import *
 from .rest import *
 from .swagger import *
+from .jet_panel import *
 
 
 try:

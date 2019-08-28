@@ -1,7 +1,8 @@
 import json
 from django.contrib.auth.models import User
 from django.db import models
-
+from django.urls import reverse
+from django.contrib.contenttypes.models import ContentType
 # Create your models here.
 from django.utils.safestring import mark_safe
 from pygments import highlight
@@ -67,6 +68,11 @@ class ConfigRequest(models.Model):
                          'Request another configuration</a>'.format(self.user.id))
     request_config.allow_tags = True
     request_config.short_description = 'Request URL'
+
+    def get_admin_url(self):
+        content_type = ContentType.objects.get_for_model(self.__class__)
+        return reverse("admin:%s_%s_change" % (content_type.app_label, content_type.model), args=(self.id,))
+
 
     def pretty_data(self):
         if not self.data:

@@ -1,0 +1,25 @@
+{% load humanize %}
+
+<ul>
+    {% for recent_request in module.children %}
+        <li>
+            <span class="float-right">
+                <span class="dim">
+                    {{ recent_request.created_at|naturaltime }} <span class="icon-clock tooltip" title="{{ recent_request.created_at }}"></span>
+                </span>
+            </span>
+
+	        <span class="icon-tick" style="color: #8ecb8e;"></span>
+
+            {% if request.user.is_superuser %}
+            <a href="{{ recent_request.get_admin_url }}">{{recent_request.user}} - {{ recent_request.software_type}} - {{ recent_request.solver_type }}</a>
+            {% else %}
+            <a href="{{ recent_request.get_admin_url }}">{{ recent_request.software_type}} - {{ recent_request.solver_type }}</a>
+            {% endif %}
+        </li>
+    {% empty %}
+        <li>
+            Nothing to show
+        </li>
+    {% endfor %}
+</ul>
