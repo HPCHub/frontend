@@ -25,6 +25,7 @@ class ConfigRequestAdmin(admin.ModelAdmin):
         'pretty_data',
         'software_type',
         'solver_type',
+        'request_config'
     ]
     exclude = [
         'data',

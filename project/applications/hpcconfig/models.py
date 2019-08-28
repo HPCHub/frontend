@@ -62,6 +62,12 @@ class ConfigRequest(models.Model):
             return ''
         return str(json.loads(self.data).get('solver_type'))
 
+    def request_config(self):
+        return mark_safe('<a href="https://ptchk.typeform.com/to/To9Fp9?id={}">'
+                         'Request another configuration</a>'.format(self.user.id))
+    request_config.allow_tags = True
+    request_config.short_description = 'Request URL'
+
     def pretty_data(self):
         if not self.data:
             return ''
