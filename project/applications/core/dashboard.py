@@ -31,6 +31,10 @@ class CustomIndexDashboard(Dashboard):
             order=0
         ))
 
-        self.available_children.append(
-            RecentRequests
+        self.children.append(
+            RecentRequests(
+                'Recent requests',
+                column=2,
+                order=0
+            )
         )
