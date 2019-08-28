@@ -52,6 +52,16 @@ class ConfigRequest(models.Model):
         auto_created=True
     )
 
+    def software_type(self):
+        if not self.data:
+            return ''
+        return str(json.loads(self.data).get('software_type'))
+
+    def solver_type(self):
+        if not self.data:
+            return ''
+        return str(json.loads(self.data).get('solver_type'))
+
     def pretty_data(self):
         if not self.data:
             return ''

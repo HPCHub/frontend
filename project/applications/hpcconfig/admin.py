@@ -10,6 +10,8 @@ class ConfigRequestAdmin(admin.ModelAdmin):
     list_display = [
         'user',
         'created_at',
+        'software_type',
+        'solver_type',
     ]
     list_filter = [
         'user',
@@ -21,6 +23,8 @@ class ConfigRequestAdmin(admin.ModelAdmin):
         'user',
         'created_at',
         'pretty_data',
+        'software_type',
+        'solver_type',
     ]
     exclude = [
         'data',

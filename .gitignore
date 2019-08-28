@@ -178,3 +178,4 @@ pip-selfcheck.json
 test
 /configs/deploy.sh
 /configs/flower.conf.py
+/project/applications/*/migrations/*.py
