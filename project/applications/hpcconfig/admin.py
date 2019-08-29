@@ -26,7 +26,6 @@ class ConfigRequestAdmin(admin.ModelAdmin):
         'pretty_data',
         'software_type',
         'solver_type',
-        'request_config',
     ]
     exclude = [
         'data',
@@ -69,4 +68,8 @@ class ConfigRequestAdmin(admin.ModelAdmin):
 
 admin.site.register(ConfigRequest, ConfigRequestAdmin)
 
-admin.site.register(Formula)
+class FormulaAdmin(admin.ModelAdmin):
+
+    model = Formula
+
+admin.site.register(Formula, FormulaAdmin)

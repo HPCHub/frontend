@@ -9,8 +9,6 @@ from pygments import highlight
 from pygments.formatters.html import HtmlFormatter
 from pygments.lexers.data import JsonLexer
 
-from hpcconfig.utils.typeform_popup import POPUP_CODE
-
 
 class HPCProvider(models.Model):
     name = models.CharField(
@@ -65,10 +63,6 @@ class ConfigRequest(models.Model):
             return ''
         return str(json.loads(self.data).get('solver_type'))
 
-    def request_config(self):
-        return mark_safe(POPUP_CODE % self.user.id)
-    request_config.allow_tags = True
-    request_config.short_description = 'Request URL'
 
     def get_admin_url(self):
         content_type = ContentType.objects.get_for_model(self.__class__)
