@@ -1,5 +1,6 @@
 import json
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
 from django.contrib.contenttypes.models import ContentType
@@ -9,17 +10,20 @@ from pygments import highlight
 from pygments.formatters.html import HtmlFormatter
 from pygments.lexers.data import JsonLexer
 
-
-class HPCProvider(models.Model):
+class HpcProvider(models.Model):
     name = models.CharField(
         max_length=80,
         null=True, blank=True,
-        verbose_name='Provider name'
+    )
+    template = models.TextField(
+        null=True, blank=True,
+    )
+    is_active = models.BooleanField(
+        default=True,
     )
 
     def __str__(self):
         return self.name
-
 
 
 class Formula(models.Model):
@@ -33,13 +37,27 @@ class Formula(models.Model):
         null=True, blank=True,
         verbose_name='Solver type'
     )
-    formula = models.TextField(
+    provider = models.ForeignKey(
+        HpcProvider, models.PROTECT,
         null=True, blank=True,
-        verbose_name='Formula'
     )
 
+    formula = models.TextField(
+        null=True, blank=True,
+        help_text="""
+            Select {formula} from hpcconfig_configrequest 
+            where id={request_id}
+            
+            So you need to write formula
+        """
+    )
+
+    def clean(self):
+        if ';' in self.formula:
+            raise ValidationError('You can not use ";" symbol')
+
     def __str__(self):
-        return '{} - {}'.format(self.software_type, self.solver_type)
+        return '{} - {} - {}'.format(self.provider, self.software_type, self.solver_type)
 
 
 class ConfigRequest(models.Model):
@@ -94,8 +112,34 @@ class ConfigRequestResult(models.Model):
         User, verbose_name='User', on_delete=models.CASCADE, null=True, blank=True
     )
     data = models.TextField(
-        verbose_name='request_data'
+        verbose_name='result_data'
     )
-    request = models.ForeignKey(
-        ConfigRequest, models.CASCADE, null=True, blank=True
+    provider = models.ForeignKey(
+        HpcProvider, models.PROTECT,
+        null=True, blank=True
     )
+    config_request = models.ForeignKey(
+        ConfigRequest, models.PROTECT,
+        null=True, blank=True
+    )
+
+    def pretty_data(self):
+        if not self.data:
+            return ''
+        try:
+            points = json.dumps(
+                json.loads(self.data), sort_keys=True,
+                indent=2, ensure_ascii=False
+            )
+        except Exception as e:
+            print(e)
+            return ''
+        formatter = HtmlFormatter(style='colorful')
+        output = highlight(points, JsonLexer(), formatter)
+        style = "<style>" + formatter.get_style_defs() + "</style><br>"
+        return mark_safe(style + output)
+    pretty_data.allow_tags = True
+    pretty_data.short_description = 'Pretty_data'
+
+    def __str__(self):
+        return '{} - {}'.format(self.config_request, self.provider.name)

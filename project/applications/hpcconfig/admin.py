@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from .models import ConfigRequest, Formula
+from .models import ConfigRequest, Formula, HpcProvider, ConfigRequestResult
+
 
 # Register your models here.
 
@@ -66,10 +67,31 @@ class ConfigRequestAdmin(admin.ModelAdmin):
         return super(ConfigRequestAdmin, self).changelist_view(request)
 
 
-admin.site.register(ConfigRequest, ConfigRequestAdmin)
-
 class FormulaAdmin(admin.ModelAdmin):
-
     model = Formula
 
+
+
+class ConfigRequestResultAdmin(admin.ModelAdmin):
+    model = ConfigRequestResult
+    readonly_fields = [
+        'provider',
+        'user',
+        'config_request',
+        'pretty_data',
+    ]
+    exclude = [
+        'data',
+    ]
+
+    def get_queryset(self, request):
+        if request.user.is_superuser:
+            return super(ConfigRequestResultAdmin, self).get_queryset(request)
+        else:
+            qs = super(ConfigRequestResultAdmin, self).get_queryset(request)
+            return qs.filter(user=request.user)
+
+admin.site.register(ConfigRequest, ConfigRequestAdmin)
 admin.site.register(Formula, FormulaAdmin)
+admin.site.register(HpcProvider)
+admin.site.register(ConfigRequestResult, ConfigRequestResultAdmin)
