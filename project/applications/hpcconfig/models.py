@@ -103,6 +103,7 @@ class ConfigRequest(models.Model):
     pretty_data.allow_tags = True
     pretty_data.short_description = 'Data'
 
+
     def __str__(self):
         return '{} - {}'.format(self.user.username, self.created_at)
 
