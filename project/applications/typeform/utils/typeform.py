@@ -59,7 +59,7 @@ def process_form(instance):
         form = TypeForm.objects.filter(form_id=form_id).last()
 
     if form.form_type == 'initial':
-        if instance.hidden_id:
+        if instance.hidden_id and instance.hidden_id != 0:
             user = User.objects.get(pk=instance.hidden_id)
         else:
             email = json.loads(instance.answers).get('email')
