@@ -6,6 +6,7 @@ INSTALLED_APPS = [
     'typeform',
     'urlshortener',
     'hpcconfig',
+    'finances',
 
     'jet.dashboard',
     'jet',
