@@ -3,14 +3,20 @@ from .models import Wallet, Transaction
 
 # Register your models here.
 
-class TransactionInline(admin.StackedInline):
+class FromTransactionInline(admin.StackedInline):
     model = Transaction
+    fk_name = 'form_wallet'
+
+
+class ToTransactionInline(admin.StackedInline):
+    model = Transaction
+    fk_name = 'to_wallet'
 
 
 class WalletAdmin(admin.ModelAdmin):
     model = Wallet
 
-    inlines = [TransactionInline,]
+    inlines = [FromTransactionInline, ToTransactionInline, ]
 
 
 admin.site.register(Wallet, WalletAdmin)
