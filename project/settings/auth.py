@@ -18,3 +18,5 @@
 # ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 2
 # ACCOUNT_USER_DISPLAY = lambda user: "%s %s" % (user.first_name, user.last_name) if user.first_name and user.last_name \
 #     else user.email
+
+LOGIN_URL = '/'

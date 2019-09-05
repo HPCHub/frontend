@@ -19,3 +19,22 @@ class InviteEmailText(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class RepeatedEmailText(models.Model):
+    title = models.TextField(
+        null=False, blank=False,
+        verbose_name='Email title'
+    )
+    body = models.TextField(
+        null=False, blank=False,
+        verbose_name='Email body',
+        help_text='Url for request = %'
+    )
+
+    class Meta:
+        verbose_name = "Email on repeat"
+        verbose_name_plural = "Emails on repeat"
+
+    def __str__(self):
+        return self.title

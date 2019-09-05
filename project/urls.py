@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
-
+from django.contrib.auth import views as auth_views
 
 admin.site.site_header = 'HPC-HUB control Panel'
 admin.site.site_title = 'HPC-HUB control Panel'
@@ -24,6 +24,11 @@ admin.site.site_title = 'HPC-HUB control Panel'
 urlpatterns = [
     url(r'^jet/', include('jet.urls', 'jet')),  # Django JET URLS
     url(r'^jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
+
+    path('accounts/password_reset/', auth_views.PasswordResetView.as_view(), name='admin_password_reset'),
+    path('accounts/password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('accounts/reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('accounts/reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
 
     path('', admin.site.urls),
     path('s/', include('urlshortener.urls')),

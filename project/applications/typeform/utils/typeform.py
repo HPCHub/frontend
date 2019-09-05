@@ -9,7 +9,7 @@ from hpcconfig.models import ConfigRequest
 from typeform.models import TypeForm
 from django.conf import settings
 
-from core.utils.send_credentials import send_credentials_mail
+from core.utils.mails import send_credentials_mail, send_repeated_mail
 
 logger = logging.getLogger(__name__)
 
@@ -76,12 +76,19 @@ def process_form(instance):
                 user.groups.add(group)
                 user.set_password(pwd)
                 user.save()
+                conf_req = ConfigRequest.objects.create(
+                    user=user,
+                    data=instance.answers,
+                    created_at=timezone.now()
+                )
+                conf_req.save()
                 if settings.SEND_CREDENTIALS_TF:
                     send_credentials_mail(pwd, email)
-
-        conf_req = ConfigRequest.objects.create(
-            user=user,
-            data=instance.answers,
-            created_at=timezone.now()
-        )
-        conf_req.save()
+            else:
+                conf_req = ConfigRequest.objects.create(
+                    user=user,
+                    data=instance.answers,
+                    created_at=timezone.now()
+                )
+                conf_req.save()
+                send_repeated_mail(email, conf_req.get_admin_url())
