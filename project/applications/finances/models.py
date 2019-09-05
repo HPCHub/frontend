@@ -37,10 +37,12 @@ class Transaction(models.Model):
 
     from_wallet = models.ForeignKey(
         Wallet, models.PROTECT,
+        related_name='from_wallet',
         verbose_name='From wallet'
     )
     to_wallet = models.ForeignKey(
         Wallet, models.PROTECT,
+        related_name='to_wallet',
         verbose_name='To wallet'
     )
     reason = models.CharField(
