@@ -5,7 +5,7 @@ from .models import Wallet, Transaction
 
 class FromTransactionInline(admin.StackedInline):
     model = Transaction
-    fk_name = 'form_wallet'
+    fk_name = 'from_wallet'
 
 
 class ToTransactionInline(admin.StackedInline):
