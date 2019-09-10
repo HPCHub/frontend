@@ -59,9 +59,9 @@ def process_form(instance):
         form = TypeForm.objects.filter(form_id=form_id).last()
 
     if form.form_type == 'initial':
-        if int(instance.hidden_id) !=0:
+        try:
             user = User.objects.get(pk=instance.hidden_id)
-        else:
+        except User.DoesNotExist:
             email = json.loads(instance.answers).get('email')
             user = User.objects.filter(email__icontains=email).last()
             if not user:
@@ -76,19 +76,12 @@ def process_form(instance):
                 user.groups.add(group)
                 user.set_password(pwd)
                 user.save()
-                conf_req = ConfigRequest.objects.create(
-                    user=user,
-                    data=instance.answers,
-                    created_at=timezone.now()
-                )
-                conf_req.save()
                 if settings.SEND_CREDENTIALS_TF:
                     send_credentials_mail(pwd, email)
-            else:
-                conf_req = ConfigRequest.objects.create(
-                    user=user,
-                    data=instance.answers,
-                    created_at=timezone.now()
-                )
-                conf_req.save()
-                send_repeated_mail(email, conf_req.get_admin_url())
+        conf_req = ConfigRequest.objects.create(
+            user=user,
+            data=instance.answers,
+            created_at=timezone.now()
+        )
+        conf_req.save()
+        send_repeated_mail(user.email, conf_req.get_admin_url())
