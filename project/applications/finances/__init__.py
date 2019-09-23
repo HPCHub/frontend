@@ -1,1 +1,1 @@
-default_app_config = 'core.apps.FinancesConfig'
+default_app_config = 'finances.apps.FinancesConfig'
