@@ -1,0 +1,10 @@
+{% extends 'admin/change_form.html' %}
+{% load static %}
+
+{% block submit_buttons_bottom %}
+    <div class="submit-row">
+        <input type="submit" class="default" value="Run Configuration" name="_run-configuration"
+        style="width: 100%">
+    </div>
+    {{ block.super }}
+{% endblock %}

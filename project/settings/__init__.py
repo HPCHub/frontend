@@ -13,9 +13,9 @@ from .languages import *
 from .middlewares import *
 from .static import *
 from .templates import *
+from .jet_panel import *
 from .rest import *
 from .swagger import *
-from .jet_panel import *
 
 
 try:

@@ -1,12 +1,13 @@
 from jet.dashboard.modules import DashboardModule
 
-from hpcconfig.models import ConfigRequest
+from cloudconfig.models import ConfigRequest
 
 
 class RecentRequests(DashboardModule):
 
 
     title = 'Recent requests'
+    deletable = False
     template = 'core/recent_requests.html'
     limit = 10
     column = 2
@@ -22,6 +23,7 @@ class RecentRequests(DashboardModule):
 class NewRequest(DashboardModule):
 
     title = 'New request'
+    deletable = False
     template = 'core/new_config.html'
     limit = 10
     column = 0

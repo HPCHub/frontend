@@ -5,7 +5,7 @@ import random
 from django.contrib.auth.models import User, Group
 from django.utils import timezone
 
-from hpcconfig.models import ConfigRequest
+from cloudconfig.models import ConfigRequest
 from typeform.models import TypeForm
 from django.conf import settings
 
@@ -61,9 +61,24 @@ def process_form(instance):
     if form.form_type == 'initial':
         try:
             user = User.objects.get(pk=instance.hidden_id)
+            conf_req = ConfigRequest.objects.create(
+                user=user,
+                data=instance.answers,
+                created_at=timezone.now()
+            )
+            conf_req.save()
+            send_repeated_mail(user.email, conf_req.get_admin_url())
         except User.DoesNotExist:
             email = json.loads(instance.answers).get('email')
             user = User.objects.filter(email__icontains=email).last()
+            if user:
+                conf_req = ConfigRequest.objects.create(
+                    user=user,
+                    data=instance.answers,
+                    created_at=timezone.now()
+                )
+                conf_req.save()
+                send_repeated_mail(user.email, conf_req.get_admin_url())
             if not user:
                 symbols = 'ab1cd2ef3gh4ij5kl6mn7op8qr9stuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
                 pwd = ''.join([random.choice(symbols) for i in range(8)])
@@ -76,12 +91,11 @@ def process_form(instance):
                 user.groups.add(group)
                 user.set_password(pwd)
                 user.save()
+                conf_req = ConfigRequest.objects.create(
+                    user=user,
+                    data=instance.answers,
+                    created_at=timezone.now()
+                )
+                conf_req.save()
                 if settings.SEND_CREDENTIALS_TF:
-                    send_credentials_mail(pwd, email)
-        conf_req = ConfigRequest.objects.create(
-            user=user,
-            data=instance.answers,
-            created_at=timezone.now()
-        )
-        conf_req.save()
-        send_repeated_mail(user.email, conf_req.get_admin_url())
+                    send_credentials_mail(pwd, email, conf_req.get_admin_url())

@@ -10,10 +10,8 @@ class Wallet(models.Model):
         null=True, blank=True,
         verbose_name='User'
     )
-    balance = models.DecimalField(
+    balance = models.FloatField(
         null=True, blank=True,
-        decimal_places=2,
-        max_digits=12,
         verbose_name='Wallet balance'
     )
 
@@ -49,14 +47,12 @@ class Transaction(models.Model):
         choices=REASON_CHOICES,
         max_length=255
     )
-    amount = models.DecimalField(
+    amount = models.FloatField(
         null=True, blank=True,
-        decimal_places=2,
-        max_digits=12,
     )
     created_at = models.DateTimeField(
         auto_created=True
     )
 
     def __str__(self):
-        return '{} - {} - {}'.format(self.from_wallet, self.to_wallet, self.amount)
+        return 'From: {}. To: {}. Amount: {}'.format(self.from_wallet, self.to_wallet, self.amount)

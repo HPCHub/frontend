@@ -13,13 +13,10 @@ def dictfetchall(cursor):
 
 def process_config_request(config_request, formula):
     query = """
-            Select {formula} from hpcconfig_configrequest 
-            where id={request_id};
-            """.format(formula=formula, request_id=config_request.id)
-    print(config_request)
-    print(query)
+            Select {formula} from cloudconfig_configrequest 
+            where hashed_id='{request_id}';
+            """.format(formula=formula, request_id=config_request.hashed_id)
     with connection.cursor() as cursor:
         cursor.execute(query)
         result = dictfetchall(cursor)
-        print(result)
         return result

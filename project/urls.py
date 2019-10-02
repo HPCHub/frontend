@@ -18,8 +18,9 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 
-admin.site.site_header = 'HPC-HUB control Panel'
-admin.site.site_title = 'HPC-HUB control Panel'
+admin.site.site_header = 'RocketCompute'
+admin.site.site_title = 'RocketCompute'
+admin.site.index_title = 'RocketCompute'
 
 urlpatterns = [
     url(r'^jet/', include('jet.urls', 'jet')),  # Django JET URLS

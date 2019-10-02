@@ -13,5 +13,3 @@ def on_new_typeform(sender, instance, **kwargs):
     if kwargs['created']:
         parse_typeform_answers(instance)
         process_form(instance)
-
-

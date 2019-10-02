@@ -1,0 +1,17 @@
+{% load i18n %}
+
+<div class="dashboard-tools-toggle-container">
+    <a href="#" class="dashboard-tools-toggle button">
+        <span class="dashboard-tools-toggle-icon icon-settings"></span>
+    </a>
+</div>
+<div class="dashboard-tools">
+    <form action="{% url "jet-dashboard:reset_dashboard" %}" method="POST" id="reset-dashboard-form">
+        {% csrf_token %}
+        <input type="hidden" name="app_label" value="{% if app_label %}{{ app_label }}{% endif %}">
+    </form>
+    <div class="dialog-confirm" id="reset-dashboard-dialog" title="{% trans "Reset widgets" %}">
+        <p>{% trans "Are you sure want to reset widgets?" %}</p>
+    </div>
+</div>
+

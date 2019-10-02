@@ -2,11 +2,11 @@ from django.core.mail import send_mail
 from core.models import InviteEmailText, RepeatedEmailText
 from django.conf import settings
 
-def send_credentials_mail(pwd, email):
+def send_credentials_mail(pwd, email, request_url):
     invitation = InviteEmailText.objects.last()
     send_mail(
         invitation.title,
-        invitation.body % (email, pwd),
+        invitation.body % (email, pwd, request_url),
         settings.DEFAULT_FROM_EMAIL,
         [email],
         fail_silently=False,
