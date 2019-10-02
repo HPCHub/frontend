@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
 from django.utils import timezone
 
 from .models import ConfigRequest, Formula, CloudProvider, ConfigRequestResult, LaunchHistory
@@ -32,6 +33,57 @@ class ConfigRequestResultInline(admin.StackedInline):
         }),
     )
 
+
+
+"""
+<QueryDict: 
+{
+'csrfmiddlewaretoken': ['FbKcOKdmggj0QZjKdirjHg4IbFvOyMuVuHNSPcnMirLfO5NfQCrGpIFqyM0OJeul'], 
+'name': [''], 
+'configrequestresult_set-TOTAL_FORMS': ['1'], 
+'configrequestresult_set-INITIAL_FORMS': ['1'], 
+'configrequestresult_set-MIN_NUM_FORMS': ['0'], 
+'configrequestresult_set-MAX_NUM_FORMS': ['1000'], 
+'configrequestresult_set-0-hashed_id': ['e4ab3840-1d2f-4e21-919a-2a2460f9d1c8'], 
+'configrequestresult_set-0-config_request': ['d982711b-c044-41ae-a2a0-dd996e35feca'], 
+'_run-configuration': ['Run Configuration'], 
+'configrequestresult_set-__prefix__-hashed_id': [''], 
+'configrequestresult_set-__prefix__-config_request': ['d982711b-c044-41ae-a2a0-dd996e35feca']
+}
+>
+
+<QueryDict: {
+'csrfmiddlewaretoken': ['PJDhlGnH7XtTu6LCrln1QAipTiTWQ3uIEfGXm8x798V8scf74Fnoy2T7gpoW1vu8'], 
+'name': [''], 
+'configrequestresult_set-TOTAL_FORMS': ['2'], 
+'configrequestresult_set-INITIAL_FORMS': ['2'], 
+'configrequestresult_set-MIN_NUM_FORMS': ['0'], 
+'configrequestresult_set-MAX_NUM_FORMS': ['1000'], 
+'configrequestresult_set-0-hashed_id': ['7e190047-b7fb-4ba7-9908-d2eeac08dd24'], 
+'configrequestresult_set-0-config_request': ['d982711b-c044-41ae-a2a0-dd996e35feca'], 
+'_run-configuration': ['Run Configuration'], 
+'configrequestresult_set-1-hashed_id': ['e4ab3840-1d2f-4e21-919a-2a2460f9d1c8'], 
+'configrequestresult_set-1-config_request': ['d982711b-c044-41ae-a2a0-dd996e35feca'], 
+'configrequestresult_set-__prefix__-hashed_id': [''], 
+'configrequestresult_set-__prefix__-config_request': ['d982711b-c044-41ae-a2a0-dd996e35feca']
+}>
+
+<QueryDict: {
+'csrfmiddlewaretoken': ['ndmTfqErHMORbmKENDimkJQSQtQr0acdcJpzgSORJXg69se9qXiJ2brAdAlrbCcD'], 
+'name': [''], 
+'configrequestresult_set-TOTAL_FORMS': ['2'], 
+'configrequestresult_set-INITIAL_FORMS': ['2'], 
+'configrequestresult_set-MIN_NUM_FORMS': ['0'], 
+'configrequestresult_set-MAX_NUM_FORMS': ['1000'],
+'configrequestresult_set-0-hashed_id': ['7e190047-b7fb-4ba7-9908-d2eeac08dd24'],
+'configrequestresult_set-0-config_request': ['d982711b-c044-41ae-a2a0-dd996e35feca'], 
+'_run-configuration': ['Run Configuration'], 
+'configrequestresult_set-1-hashed_id': ['e4ab3840-1d2f-4e21-919a-2a2460f9d1c8'], 
+'configrequestresult_set-1-config_request': ['d982711b-c044-41ae-a2a0-dd996e35feca'], 
+'configrequestresult_set-__prefix__-hashed_id': [''], 
+'configrequestresult_set-__prefix__-config_request': ['d982711b-c044-41ae-a2a0-dd996e35feca']
+}>
+"""
 
 
 class ConfigRequestAdmin(admin.ModelAdmin):
@@ -104,16 +156,26 @@ class FormulaAdmin(admin.ModelAdmin):
 
 class ConfigRequestResultAdmin(admin.ModelAdmin):
     model = ConfigRequestResult
+
     readonly_fields = [
         'provider',
         'user',
         'config_request',
+        'config_type',
+        'cores',
+        'ram_memory',
+        'storage_type',
+        'storage_size',
+        'price_per_hour',
     ]
     exclude = [
         'data',
     ]
 
     change_form_template = 'cloudconfig/run_configs.html'
+
+    def get_start_url(self, request, obj):
+        return 'cloudconfig/start_config/{}/'.format(obj.pk)
 
     def response_change(self, request, obj):
         if "_run-configuration" in request.POST:
@@ -183,22 +245,6 @@ class LaunchHistoryAdmin(admin.ModelAdmin):
             return HttpResponseRedirect(obj.get_admin_url())
         return super().response_change(request, obj)
 
-    def get_exclude(self, request, obj=None):
-        if request.user.is_superuser:
-            if 'user' not in self.readonly_fields:
-                self.readonly_fields.insert(self.readonly_fields.__len__(), 'user')
-            if 'status' not in self.readonly_fields:
-                self.readonly_fields.insert(self.readonly_fields.__len__(), 'status')
-        else:
-            if 'user' in self.readonly_fields:
-                self.readonly_fields.remove('user')
-            if 'status' in self.readonly_fields:
-                self.readonly_fields.remove('status')
-
-    def get_readonly_fields(self, request, obj=None):
-        if request.user.is_superuser:
-            return super(LaunchHistoryAdmin, self).get_readonly_fields(request)
-        return super(LaunchHistoryAdmin, self).get_readonly_fields(request)
 
     def get_queryset(self, request):
         if request.user.is_superuser:

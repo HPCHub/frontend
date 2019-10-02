@@ -34,4 +34,7 @@ urlpatterns = [
     path('', admin.site.urls),
     path('s/', include('urlshortener.urls')),
     path('typeform/', include('typeform.urls')),
+
+    path('cloudconfig/', include('cloudconfig.urls')),
+
 ]
