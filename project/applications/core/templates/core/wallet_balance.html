@@ -15,14 +15,14 @@
                     {{ transaction.created_at|naturaltime }} <span class="icon-clock tooltip" title="{{ transaction.created_at }}"></span>
                 </span>
             </span>
-	        <span class="icon-tick" style="color: #8ecb8e;"></span>
+	        <span class="icon-arrow-left" style="color: #8ecb8e;font-weight: bold"></span>
 			{% else %}
 	                    <span class="float-right">
                 <span class="dim">
                     {{ transaction.created_at|naturaltime }} <span class="icon-clock tooltip" title="{{ transaction.created_at }}"></span>
                 </span>
             </span>
-	        <span class="icon-tick" style="color: #cb1623;"></span>
+	        <span class="icon-arrow-right" style="color: #cb1623;font-weight: bold"></span>
 	     {% endif %}
 				<a>Reason: {{ transaction.reason }} -- Amount: {{ transaction.amount}}</a>
         </li>
