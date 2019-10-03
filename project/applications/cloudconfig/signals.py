@@ -112,10 +112,10 @@ def on_new_config_request(sender, instance, **kwargs):
                     user=instance.user,
                     config_request=instance,
                     provider=formula.provider,
-                    cores=cores*0.75,
+                    cores=cores*3/4,
                     config_type='price',
-                    ram_memory=ram*0.75,
-                    storage_size=storage_size*0.75,
+                    ram_memory=ram*3/4,
+                    storage_size=storage_size*3/4,
                     storage_type=storage_type,
                     price_per_hour=hourly_price
                 )
@@ -124,17 +124,17 @@ def on_new_config_request(sender, instance, **kwargs):
                 storage_type = 'ssd'
                 hourly_price = \
                     formula.provider._meta.get_field(storage_types.get(storage_type)).value_from_object(
-                        formula.provider) * float(storage_size * 1.5) + \
-                    formula.provider.core_price * float(cores * 1.5) + \
-                    formula.provider.mem_price * float(ram * 1.5)
+                        formula.provider) * float(storage_size * 2) + \
+                    formula.provider.core_price * float(cores * 2) + \
+                    formula.provider.mem_price * float(ram * 2)
                 result_speed = ConfigRequestResult.objects.create(
                     user=instance.user,
                     config_request=instance,
                     provider=formula.provider,
-                    cores=cores*1.5,
+                    cores=cores*2,
                     config_type='speed',
-                    ram_memory=ram*1.5,
-                    storage_size=storage_size*1.5,
+                    ram_memory=ram*2,
+                    storage_size=storage_size*2,
                     storage_type=storage_type,
                     price_per_hour=hourly_price
                 )
