@@ -27,8 +27,6 @@
 				<a>Reason: {{ transaction.reason }} -- Amount: {{ transaction.amount}}</a>
         </li>
     {% empty %}
-        <li>
-            Nothing to show
-        </li>
+        <h1 style="text-align: center;align-items: center">Nothing to show</h1>
     {% endfor %}
 </ul>

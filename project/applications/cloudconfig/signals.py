@@ -82,7 +82,6 @@ def on_new_config_request(sender, instance, **kwargs):
         for formula in formulas:
             if formula.provider.name == 'Google':
                 data = process_config_request(instance, formula.formula)
-
                 cores = data[0].get('cores')
                 ram = data[0].get('ram_size')
                 storage_size = data[0].get('hdd_size')
@@ -102,4 +101,44 @@ def on_new_config_request(sender, instance, **kwargs):
                     price_per_hour=hourly_price
                 )
                 result.save()
+
+                storage_type = 'hdd'
+                hourly_price = \
+                    formula.provider._meta.get_field(storage_types.get(storage_type)).value_from_object(
+                        formula.provider) * float(storage_size*0.75) + \
+                    formula.provider.core_price * float(cores*0.75) + \
+                    formula.provider.mem_price * float(ram*0.75)
+                result_price = ConfigRequestResult.objects.create(
+                    user=instance.user,
+                    config_request=instance,
+                    provider=formula.provider,
+                    cores=cores,
+                    config_type='price',
+                    ram_memory=ram,
+                    storage_size=storage_size,
+                    storage_type=storage_type,
+                    price_per_hour=hourly_price
+                )
+                result_price.save()
+
+                storage_type = 'ssd'
+                hourly_price = \
+                    formula.provider._meta.get_field(storage_types.get(storage_type)).value_from_object(
+                        formula.provider) * float(storage_size * 1.5) + \
+                    formula.provider.core_price * float(cores * 1.5) + \
+                    formula.provider.mem_price * float(ram * 1.5)
+                result_speed = ConfigRequestResult.objects.create(
+                    user=instance.user,
+                    config_request=instance,
+                    provider=formula.provider,
+                    cores=cores,
+                    config_type='speed',
+                    ram_memory=ram,
+                    storage_size=storage_size,
+                    storage_type=storage_type,
+                    price_per_hour=hourly_price
+                )
+                result_speed.save()
+
+
                 return result
