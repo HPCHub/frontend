@@ -59,7 +59,6 @@ class ConfigRequestAdmin(admin.ModelAdmin):
         'data',
     ]
 
-    actions = [start_configuration, ]
 
     def get_queryset(self, request):
         if request.user.is_superuser:
@@ -120,6 +119,8 @@ class ConfigRequestResultAdmin(admin.ModelAdmin):
     ]
 
     change_form_template = 'cloudconfig/run_configs.html'
+
+    actions = [start_configuration, ]
 
     def get_start_url(self, request, obj):
         return 'cloudconfig/start_config/{}/'.format(obj.pk)
