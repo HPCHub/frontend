@@ -2,9 +2,11 @@
 {% load static %}
 
 {% block submit_buttons_bottom %}
+    {% if status != 'killed' %}
     <div class="submit-row">
         <input type="submit" class="default" value="Kill this instance" name="_kill-instance"
                style="color:white;background-color: crimson;width: 100%">
     </div>
+    {% endif %}
     {{ block.super }}
 {% endblock %}

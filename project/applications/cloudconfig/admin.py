@@ -193,6 +193,13 @@ class LaunchHistoryAdmin(admin.ModelAdmin):
             return HttpResponseRedirect(obj.get_admin_url())
         return super().response_change(request, obj)
 
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        extra_context = extra_context or {}
+        extra_context['status'] = LaunchHistory.objects.get(pk=object_id).status
+        return super().change_view(
+            request, object_id, form_url, extra_context=extra_context,
+        )
+
 
     def get_queryset(self, request):
         if request.user.is_superuser:

@@ -26,14 +26,14 @@ class CustomIndexDashboard(Dashboard):
             RecentRequests(
                 'Recent requests',
                 column=2,
-                order=0
+                order=1
             )
         )
         self.children.append(
             WalletBalance(
                 'Wallet',
                 column=2,
-                order=1
+                order=0
             )
         )
 
