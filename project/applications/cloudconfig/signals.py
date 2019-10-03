@@ -112,10 +112,10 @@ def on_new_config_request(sender, instance, **kwargs):
                     user=instance.user,
                     config_request=instance,
                     provider=formula.provider,
-                    cores=cores,
+                    cores=cores*0.75,
                     config_type='price',
-                    ram_memory=ram,
-                    storage_size=storage_size,
+                    ram_memory=ram*0.75,
+                    storage_size=storage_size*0.75,
                     storage_type=storage_type,
                     price_per_hour=hourly_price
                 )
@@ -131,10 +131,10 @@ def on_new_config_request(sender, instance, **kwargs):
                     user=instance.user,
                     config_request=instance,
                     provider=formula.provider,
-                    cores=cores,
+                    cores=cores*1.5,
                     config_type='speed',
-                    ram_memory=ram,
-                    storage_size=storage_size,
+                    ram_memory=ram*1.5,
+                    storage_size=storage_size*1.5,
                     storage_type=storage_type,
                     price_per_hour=hourly_price
                 )
