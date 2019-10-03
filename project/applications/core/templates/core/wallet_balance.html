@@ -1,0 +1,34 @@
+{% load humanize %}
+
+
+<div class="balance-info">
+	<br>
+	<h1 style="text-align: center;align-items: center">Your balance - {{ module.context.wallet.balance}}</h1>
+</div>
+
+<ul>
+    {% for transaction in module.children %}
+        <li>
+	        {% if transaction.to_wallet == module.context.wallet %}
+            <span class="float-right">
+                <span class="dim">
+                    {{ transaction.created_at|naturaltime }} <span class="icon-clock tooltip" title="{{ transaction.created_at }}"></span>
+                </span>
+            </span>
+	        <span class="icon-tick" style="color: #8ecb8e;"></span>
+			{% else %}
+	                    <span class="float-right">
+                <span class="dim">
+                    {{ transaction.created_at|naturaltime }} <span class="icon-clock tooltip" title="{{ transaction.created_at }}"></span>
+                </span>
+            </span>
+	        <span class="icon-tick" style="color: #cb1623;"></span>
+	     {% endif %}
+				<a>Reason: {{ transaction.reason }} -- Amount: {{ transaction.amount}}</a>
+        </li>
+    {% empty %}
+        <li>
+            Nothing to show
+        </li>
+    {% endfor %}
+</ul>

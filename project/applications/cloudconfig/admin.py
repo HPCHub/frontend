@@ -20,7 +20,6 @@ class ConfigRequestResultInline(admin.StackedInline):
     extra = 0
     readonly_fields = ['config_type', 'cores', 'ram_memory', 'storage_type', 'storage_size', 'price_per_hour', 'provider']
     show_change_link = True
-    actions = [start_configuration, ]
 
     fieldsets = (
         ('General', {
@@ -32,58 +31,6 @@ class ConfigRequestResultInline(admin.StackedInline):
             'fields': (('storage_type', 'storage_size'), 'cores', 'ram_memory', ),
         }),
     )
-
-
-
-"""
-<QueryDict: 
-{
-'csrfmiddlewaretoken': ['FbKcOKdmggj0QZjKdirjHg4IbFvOyMuVuHNSPcnMirLfO5NfQCrGpIFqyM0OJeul'], 
-'name': [''], 
-'configrequestresult_set-TOTAL_FORMS': ['1'], 
-'configrequestresult_set-INITIAL_FORMS': ['1'], 
-'configrequestresult_set-MIN_NUM_FORMS': ['0'], 
-'configrequestresult_set-MAX_NUM_FORMS': ['1000'], 
-'configrequestresult_set-0-hashed_id': ['e4ab3840-1d2f-4e21-919a-2a2460f9d1c8'], 
-'configrequestresult_set-0-config_request': ['d982711b-c044-41ae-a2a0-dd996e35feca'], 
-'_run-configuration': ['Run Configuration'], 
-'configrequestresult_set-__prefix__-hashed_id': [''], 
-'configrequestresult_set-__prefix__-config_request': ['d982711b-c044-41ae-a2a0-dd996e35feca']
-}
->
-
-<QueryDict: {
-'csrfmiddlewaretoken': ['PJDhlGnH7XtTu6LCrln1QAipTiTWQ3uIEfGXm8x798V8scf74Fnoy2T7gpoW1vu8'], 
-'name': [''], 
-'configrequestresult_set-TOTAL_FORMS': ['2'], 
-'configrequestresult_set-INITIAL_FORMS': ['2'], 
-'configrequestresult_set-MIN_NUM_FORMS': ['0'], 
-'configrequestresult_set-MAX_NUM_FORMS': ['1000'], 
-'configrequestresult_set-0-hashed_id': ['7e190047-b7fb-4ba7-9908-d2eeac08dd24'], 
-'configrequestresult_set-0-config_request': ['d982711b-c044-41ae-a2a0-dd996e35feca'], 
-'_run-configuration': ['Run Configuration'], 
-'configrequestresult_set-1-hashed_id': ['e4ab3840-1d2f-4e21-919a-2a2460f9d1c8'], 
-'configrequestresult_set-1-config_request': ['d982711b-c044-41ae-a2a0-dd996e35feca'], 
-'configrequestresult_set-__prefix__-hashed_id': [''], 
-'configrequestresult_set-__prefix__-config_request': ['d982711b-c044-41ae-a2a0-dd996e35feca']
-}>
-
-<QueryDict: {
-'csrfmiddlewaretoken': ['ndmTfqErHMORbmKENDimkJQSQtQr0acdcJpzgSORJXg69se9qXiJ2brAdAlrbCcD'], 
-'name': [''], 
-'configrequestresult_set-TOTAL_FORMS': ['2'], 
-'configrequestresult_set-INITIAL_FORMS': ['2'], 
-'configrequestresult_set-MIN_NUM_FORMS': ['0'], 
-'configrequestresult_set-MAX_NUM_FORMS': ['1000'],
-'configrequestresult_set-0-hashed_id': ['7e190047-b7fb-4ba7-9908-d2eeac08dd24'],
-'configrequestresult_set-0-config_request': ['d982711b-c044-41ae-a2a0-dd996e35feca'], 
-'_run-configuration': ['Run Configuration'], 
-'configrequestresult_set-1-hashed_id': ['e4ab3840-1d2f-4e21-919a-2a2460f9d1c8'], 
-'configrequestresult_set-1-config_request': ['d982711b-c044-41ae-a2a0-dd996e35feca'], 
-'configrequestresult_set-__prefix__-hashed_id': [''], 
-'configrequestresult_set-__prefix__-config_request': ['d982711b-c044-41ae-a2a0-dd996e35feca']
-}>
-"""
 
 
 class ConfigRequestAdmin(admin.ModelAdmin):
