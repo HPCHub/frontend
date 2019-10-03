@@ -34,10 +34,10 @@ class WalletBalance(DashboardModule):
 
     def init_with_context(self, context):
         wallet = Wallet.objects.get(user=context.request.user)
-        self.children = Transaction.objects.filter(from_wallet=wallet).union(Transaction.objects.filter(to_wallet=wallet))
+        self.children = Transaction.objects.filter(from_wallet=wallet).union(Transaction.objects.filter(to_wallet=wallet)).order_by('-created_at')
         if context.request.user.is_superuser:
             wallet = Wallet.objects.get(user__username='admin')
-            self.children = Transaction.objects.filter(from_wallet=wallet).union(Transaction.objects.filter(to_wallet=wallet))
+            self.children = Transaction.objects.filter(from_wallet=wallet).union(Transaction.objects.filter(to_wallet=wallet)).order_by('-created_at')
         self.context.update({"wallet": wallet})
 
 
