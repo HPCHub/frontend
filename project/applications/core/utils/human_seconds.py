@@ -19,7 +19,7 @@ def seconds_to_human(seconds):
     seconds = int(seconds)
     string = ""
     for unit, value in interval_dict.items():
-        subres = round(seconds / value)
+        subres = seconds // value
         if subres>=1:
             seconds -= value * subres
             string += str(subres) + unit
