@@ -201,11 +201,11 @@ class ConfigRequestResult(models.Model):
         null=True, blank=True
     )
 
+    def per_hour_price(self):
+        return '{} USD'.format(self.price_per_hour)
 
     def __str__(self):
         return '{} - {}'.format(self.config_request, self.provider.name)
-
-
 
 class LaunchHistory(models.Model, ModelDiffMixin):
     hashed_id = models.UUIDField(
@@ -250,6 +250,9 @@ class LaunchHistory(models.Model, ModelDiffMixin):
         choices=STATUSES, max_length=30,
         default='unknown'
     )
+
+    def price_per_hour(self):
+        return '{} USD'.format(self.config_request_result.price_per_hour)
 
     def current_uptime(self):
         start_datetime = CloudStatusHistory.objects.filter(

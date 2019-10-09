@@ -113,10 +113,11 @@ class ConfigRequestResultAdmin(admin.ModelAdmin):
         'ram_memory',
         'storage_type',
         'storage_size',
-        'price_per_hour',
+        'per_hour_price',
     ]
     exclude = [
         'data',
+        'price_per_hour'
     ]
 
     change_form_template = 'cloudconfig/run_configs.html'
