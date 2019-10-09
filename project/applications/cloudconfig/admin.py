@@ -166,6 +166,7 @@ class LaunchHistoryAdmin(admin.ModelAdmin):
         'get_keyfile_url',
         'current_uptime',
         'current_price',
+        'price_per_hour',
         'colored_status',
         'config_request',
         'config_request_result',
