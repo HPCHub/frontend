@@ -9,7 +9,7 @@
                 </span>
             </span>
 
-	        <span class="icon-tick" style="color: #8ecb8e;"></span>
+	        <span class="icon-circle" style="color: #8ecb8e;">&#9673;</span>
 
             {% if request.user.is_superuser %}
             <a href="{{ running_machine.get_admin_url }}">{{running_machine.provider}} - {{ running_machine.current_uptime }} - {{ running_machine.current_price }}</a>
