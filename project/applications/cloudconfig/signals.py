@@ -53,7 +53,7 @@ def on_new_status(sender, instance, **kwargs):
         if instance.status in ['finished', 'killed', 'error']:
             launch = instance.launch
             launch.finished_at = instance.created_at
-            launch.total_price = launch.current_price().replace(' USD','')
+            launch.total_price = float(launch.current_price().replace(' USD',''))
             launch.skip_signal  = True
             launch.save()
             kill_machine.apply_async(args=[launch.jenkins_single_id])
