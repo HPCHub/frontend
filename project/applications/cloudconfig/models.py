@@ -286,7 +286,7 @@ class LaunchHistory(models.Model, ModelDiffMixin):
         return '-'
 
     def get_keyfile_url(self):
-        if self.status == 'Running':
+        if self.status == 'running':
             return mark_safe('<a href="/cloudconfig/keyfile/{}">Download SSHkey</a>'.format(str(self.pk)))
         elif self.status == 'starting':
             return 'Please wait... Data will be available here and on your email'
