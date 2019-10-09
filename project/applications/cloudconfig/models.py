@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
 from django.contrib.contenttypes.models import ContentType
+from core.utils import human_seconds
 # Create your models here.
 from django.utils import timezone
 from django.utils.html import format_html
@@ -249,6 +250,21 @@ class LaunchHistory(models.Model, ModelDiffMixin):
         choices=STATUSES, max_length=30,
         default='unknown'
     )
+
+    def current_uptime(self):
+        start_datetime = CloudStatusHistory.objects.filter(
+            launch=self, status='starting'
+        ).first().created_at
+        finish_datetime = CloudStatusHistory.objects.filter(
+            launch=self,
+            status__in=['finished', 'killed', 'error']
+        ).order_by('-created_at').first()
+        if finish_datetime:
+            finish_datetime = finish_datetime.created_at
+        if not finish_datetime:
+            finish_datetime = timezone.now()
+        return human_seconds.seconds_to_human((finish_datetime-start_datetime).total_seconds())
+
 
     def current_price(self):
         start_datetime = CloudStatusHistory.objects.filter(launch=self, status='starting').first().created_at
