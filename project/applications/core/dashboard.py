@@ -1,7 +1,7 @@
 from jet.dashboard import modules
 from jet.dashboard.dashboard import Dashboard, AppIndexDashboard
 
-from .dashboard_modules import RecentRequests, NewRequest, WalletBalance
+from .dashboard_modules import RecentRequests, NewRequest, WalletBalance, RunningInstances
 
 
 class CustomIndexDashboard(Dashboard):
@@ -13,6 +13,13 @@ class CustomIndexDashboard(Dashboard):
                 'New Request',
                 column=0,
                 order=0,
+            )
+        )
+        self.children.append(
+            RunningInstances(
+                'Running Instances',
+                column=0,
+                order=1,
             )
         )
         self.children.append(modules.AppList(

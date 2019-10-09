@@ -9,6 +9,6 @@ def on_new_user(sender, instance, **kwargs):
     if kwargs['created']:
         wallet = Wallet.objects.create(
             user=instance,
-            balance=5000,
+            balance=100,
         )
         wallet.save()

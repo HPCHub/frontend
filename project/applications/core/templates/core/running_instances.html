@@ -1,0 +1,25 @@
+{% load humanize %}
+
+<ul>
+    {% for running_machine in module.children %}
+        <li>
+            <span class="float-right">
+                <span class="dim">
+                    {{ running_machine.started_at|naturaltime }} <span class="icon-clock tooltip" title="{{ running_machine.started_at }}"></span>
+                </span>
+            </span>
+
+	        <span class="icon-tick" style="color: #8ecb8e;"></span>
+
+            {% if request.user.is_superuser %}
+            <a href="{{ running_machine.get_admin_url }}">{{running_machine.provider}} - {{ running_machine.current_uptime }} - {{ running_machine.current_price }}</a>
+            {% else %}
+            <a href="{{ running_machine.get_admin_url }}">{{running_machine.provider}} - {{ running_machine.current_uptime }} - {{ running_machine.current_price }}</a>
+            {% endif %}
+        </li>
+    {% empty %}
+        <li>
+            Nothing to show
+        </li>
+    {% endfor %}
+</ul>
