@@ -18,7 +18,7 @@ def build_machine(launch_pk):
     launch.status = 'running'
     launch.save()
     try:
-        send_machine_credentials_mail(launch.user.email, ip_data, key_data)
+        send_machine_credentials_mail(launch.user.email, ip_data, key_data, single_id)
     finally:
         pass
 
