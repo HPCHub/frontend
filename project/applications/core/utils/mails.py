@@ -33,7 +33,7 @@ def send_machine_credentials_mail(user_mail, ip_data, key_data, single_id):
         settings.DEFAULT_FROM_EMAIL,
         [user_mail],
     )
-    with open('{}-key.txt'.format(single_id), 'rw') as key_file:
+    with open('{}-key.txt'.format(single_id), 'w+') as key_file:
         key_file.write(key_data)
         key_file.close()
     email.attach('{}-key.txt'.format(single_id))
