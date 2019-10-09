@@ -276,6 +276,8 @@ class LaunchHistory(models.Model, ModelDiffMixin):
             launch=self,
             status__in=['finished', 'killed', 'error']
         ).order_by('-created_at').first()
+        if not start_datetime:
+            start_datetime = timezone.now()
         if finish_datetime:
             finish_datetime = finish_datetime.created_at
         if not finish_datetime:
