@@ -174,6 +174,7 @@ class LaunchHistoryAdmin(admin.ModelAdmin):
     ]
     exclude = [
         'user',
+        'total_price',
         'status',
         'jenkins_single_id',
         'machine_key',

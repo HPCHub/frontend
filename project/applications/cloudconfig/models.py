@@ -273,7 +273,7 @@ class LaunchHistory(models.Model, ModelDiffMixin):
             finish_datetime = finish_datetime.created_at
         if not finish_datetime:
             finish_datetime = timezone.now()
-        return round((finish_datetime-start_datetime).total_seconds() * self.config_request_result.price_per_hour / 60 / 60, 2)
+        return '{} USD'.format(round((finish_datetime-start_datetime).total_seconds() * self.config_request_result.price_per_hour / 60 / 60, 2))
 
 
     def colored_status(self):
