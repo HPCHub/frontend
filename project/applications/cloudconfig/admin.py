@@ -54,7 +54,7 @@ class ConfigRequestAdmin(admin.ModelAdmin):
         #'user_data',
         'software_type',
         'solver_type',
-        'user_data',
+        'params',
         'optimisation_target'
     ]
     exclude = [

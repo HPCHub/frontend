@@ -128,11 +128,11 @@ class ConfigRequest(models.Model):
             return ''
         return str(json.loads(self.data).get('optimisation_target'))
 
-    def user_data(self):
+    def params(self):
         if self.solver_type() == 'HFSS':
-            return str(json.loads(self.data).get('delta_s_type'))
+            return 'Delta S : {}'.format(str(json.loads(self.data).get('delta_s_type')))
         elif self.solver_type() == 'Mechanical':
-            return str(json.loads(self.data).get('mesh_size'))
+            return 'Mesh size : {}'.format(str(json.loads(self.data).get('mesh_size')))
 
 
     def get_admin_url(self):
