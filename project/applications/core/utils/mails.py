@@ -29,7 +29,7 @@ def send_machine_credentials_mail(user_mail, ip_data, key_data):
     mail = MachineCredentialsEmailText.objects.last()
     email = EmailMessage(
         mail.title,
-        mail.body % ip_data,
+        mail.body.format(ip_data),
         settings.DEFAULT_FROM_EMAIL,
         [user_mail],
     )
