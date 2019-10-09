@@ -179,3 +179,4 @@ test
 /configs/deploy.sh
 /configs/flower.conf.py
 /project/applications/*/migrations/*.py
+/project/settings/production.py
