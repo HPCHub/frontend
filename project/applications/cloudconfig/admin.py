@@ -51,9 +51,10 @@ class ConfigRequestAdmin(admin.ModelAdmin):
     readonly_fields = [
         'user',
         'created_at',
-        #'pretty_data',
+        #'user_data',
         'software_type',
         'solver_type',
+        'user_data',
         'optimisation_target'
     ]
     exclude = [
