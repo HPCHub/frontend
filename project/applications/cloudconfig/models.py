@@ -277,7 +277,7 @@ class LaunchHistory(models.Model, ModelDiffMixin):
             status__in=['finished', 'killed', 'error']
         ).order_by('-created_at').first()
         if not start_datetime:
-            start_datetime = timezone.now()
+            return '0s'
         else:
             start_datetime = start_datetime.created_at
         if finish_datetime:
@@ -295,7 +295,7 @@ class LaunchHistory(models.Model, ModelDiffMixin):
         if not finish_datetime:
             finish_datetime = timezone.now()
         if not start_datetime:
-            start_datetime = timezone.now()
+            return '0 USD'
         else:
             start_datetime = start_datetime.created_at
         return '{} USD'.format(round((finish_datetime-start_datetime).total_seconds() * self.config_request_result.price_per_hour / 60 / 60, 2))
