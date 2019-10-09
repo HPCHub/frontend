@@ -10,7 +10,7 @@ from .models import ConfigRequest, Formula, CloudProvider, ConfigRequestResult, 
 
 def start_configuration(modeladmin, request, queryset):
     queryset.update(status='starting')
-    modeladmin.message_user(request, "Initializing cloud... Estimated time ~ 53 seconds")
+    modeladmin.message_user(request, "Initializing cloud... Estimated time ~ 2 minutes")
 start_configuration.short_description = "Start selected configs"
 
 

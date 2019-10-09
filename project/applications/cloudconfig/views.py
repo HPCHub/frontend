@@ -19,7 +19,7 @@ class StartConfig(View):
             config_request_result=result,
             status='starting'
         )
-        messages.add_message(request, messages.INFO, 'Initializing cloud... Estimated time ~ 53 seconds')
+        messages.add_message(request, messages.INFO, 'Initializing cloud... Estimated time ~ 2 minutes')
         return HttpResponseRedirect(launch.get_admin_url())
 
 
