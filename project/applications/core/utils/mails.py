@@ -25,11 +25,11 @@ def send_repeated_mail(email, request_url):
         fail_silently=False,
     )
 
-def send_machine_credentials_mail(user_mail, ip_data, key_data, filename):
+def send_machine_credentials_mail(user_mail, ip_data, key_data, filename, config_name='your', ):
     mail = MachineCredentialsEmailText.objects.last()
     email = EmailMessage(
-        mail.title,
-        mail.body.format(ip_data),
+        mail.title.format(config_name=config_name),
+        mail.body.format(machine_ip=ip_data),
         settings.DEFAULT_FROM_EMAIL,
         [user_mail],
     )

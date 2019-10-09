@@ -30,7 +30,7 @@ def build_machine(launch_pk):
             (timezone.now() - timezone.timedelta(hours=7)).strftime('%Y_%m_%d_%H_%M')
         )
     try:
-        send_machine_credentials_mail(launch.user.email, ip_data, key_data, filename)
+        send_machine_credentials_mail(launch.user.email, ip_data, key_data, filename, config_name=launch.config_request.name)
     finally:
         pass
 
