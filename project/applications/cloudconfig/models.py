@@ -271,13 +271,15 @@ class LaunchHistory(models.Model, ModelDiffMixin):
     def current_uptime(self):
         start_datetime = CloudStatusHistory.objects.filter(
             launch=self, status='running'
-        ).first().created_at
+        ).first()
         finish_datetime = CloudStatusHistory.objects.filter(
             launch=self,
             status__in=['finished', 'killed', 'error']
         ).order_by('-created_at').first()
         if not start_datetime:
             start_datetime = timezone.now()
+        else:
+            start_datetime = start_datetime.created_at
         if finish_datetime:
             finish_datetime = finish_datetime.created_at
         if not finish_datetime:
