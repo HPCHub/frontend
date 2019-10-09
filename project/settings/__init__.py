@@ -6,6 +6,8 @@
 # Add your new settings file here, order can be important
 ##################################################################
 from .base import *
+from .celery import *
+
 from .apps import *
 from .auth import *
 from .datetime import *
@@ -16,6 +18,8 @@ from .templates import *
 from .jet_panel import *
 from .rest import *
 from .swagger import *
+from .jenkins import *
+
 
 
 try:

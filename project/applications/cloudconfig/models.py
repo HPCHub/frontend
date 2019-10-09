@@ -221,6 +221,16 @@ class LaunchHistory(models.Model, ModelDiffMixin):
         ConfigRequestResult, models.PROTECT,
         null=True, blank=True
     )
+    jenkins_single_id = models.CharField(
+        max_length=80,
+        null=True, blank=True,
+    )
+    machine_ip = models.TextField(
+        null=True, blank=True
+    )
+    machine_key = models.TextField(
+        null=True, blank=True
+    )
     started_at = models.DateTimeField(
         auto_created=True
     )

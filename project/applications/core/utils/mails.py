@@ -1,6 +1,8 @@
 from django.core.mail import send_mail
-from core.models import InviteEmailText, RepeatedEmailText
+from core.models import InviteEmailText, RepeatedEmailText, MachineCredentialsEmailText
 from django.conf import settings
+from django.core.mail import EmailMessage
+
 
 def send_credentials_mail(pwd, email, request_url):
     invitation = InviteEmailText.objects.last()
@@ -22,3 +24,17 @@ def send_repeated_mail(email, request_url):
         [email],
         fail_silently=False,
     )
+
+def send_machine_credentials_mail(user_mail, ip_data, key_data):
+    mail = MachineCredentialsEmailText.objects.last()
+    email = EmailMessage(
+        mail.title,
+        mail.body % ip_data,
+        settings.DEFAULT_FROM_EMAIL,
+        [user_mail],
+    )
+    with open('key.txt', 'w') as key_file:
+        key_file.write(key_data)
+        email.attach_file(key_file)
+        email.send(fail_silently=False)
+

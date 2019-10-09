@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.utils import timezone
 from django.views.generic import View
 from .models import ConfigRequestResult, LaunchHistory
@@ -20,3 +20,12 @@ class StartConfig(View):
         )
         messages.add_message(request, messages.INFO, 'Initializing cloud...')
         return HttpResponseRedirect(launch.get_admin_url())
+
+
+class LaunchHistoryStatus(View):
+    def get(self, request, *args, **kwargs):
+        pk = kwargs['pk']
+        result = LaunchHistory.objects.get(pk=pk)
+        if result.user != request.user:
+            return HttpResponseRedirect('/')
+        return HttpResponse(result.status)

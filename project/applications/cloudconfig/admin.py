@@ -1,6 +1,5 @@
 from django.contrib import admin
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404
 from django.utils import timezone
 
 from .models import ConfigRequest, Formula, CloudProvider, ConfigRequestResult, LaunchHistory
@@ -170,6 +169,9 @@ class LaunchHistoryAdmin(admin.ModelAdmin):
     exclude = [
         'user',
         'status',
+        'jenkins_single_id',
+        'machine_ip',
+        'machine_key'
     ]
     list_filter = [
         'status',

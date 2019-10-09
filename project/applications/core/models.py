@@ -38,3 +38,21 @@ class RepeatedEmailText(models.Model):
 
     def __str__(self):
         return self.title
+
+class MachineCredentialsEmailText(models.Model):
+    title = models.TextField(
+        null=False, blank=False,
+        verbose_name='Email title'
+    )
+    body = models.TextField(
+        null=False, blank=False,
+        verbose_name='Email body',
+        help_text='IP = %'
+    )
+
+    class Meta:
+        verbose_name = "Email on repeat"
+        verbose_name_plural = "Emails on repeat"
+
+    def __str__(self):
+        return self.title

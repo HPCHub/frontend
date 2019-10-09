@@ -7,6 +7,7 @@ from django.utils import timezone
 from finances.models import Transaction, Wallet
 from .models import ConfigRequest, ConfigRequestResult, Formula, CloudStatusHistory, LaunchHistory
 from core.utils.db_api import process_config_request
+from cloudconfig.tasks import build_machine, kill_machine
 
 import logging
 from functools import wraps
@@ -30,13 +31,13 @@ def skip_signal():
 @receiver(post_save, sender=LaunchHistory)
 @skip_signal()
 def on_new_launch(sender, instance, **kwargs):
-    print(instance.changed_fields)
     if kwargs['created']:
         CloudStatusHistory.objects.create(
             status='starting',
             launch=instance,
             created_at=timezone.now()
         )
+        build_machine.apply_async(args=[instance.hashed_id])
     else:
         if 'status' in instance.changed_fields:
             CloudStatusHistory.objects.create(
@@ -55,6 +56,7 @@ def on_new_status(sender, instance, **kwargs):
             launch.total_price = launch.current_price()
             launch.skip_signal  = True
             launch.save()
+            kill_machine.apply_async(args=[launch.jenkins_single_id])
             Transaction.objects.create(
                 from_wallet=instance.launch.user.wallet,
                 to_wallet=Wallet.objects.get(user__username='admin'),
