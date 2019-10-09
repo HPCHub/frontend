@@ -51,8 +51,8 @@ class MachineCredentialsEmailText(models.Model):
     )
 
     class Meta:
-        verbose_name = "Email on repeat"
-        verbose_name_plural = "Emails on repeat"
+        verbose_name = "Email on new machine"
+        verbose_name_plural = "Emails on new machine"
 
     def __str__(self):
         return self.title
