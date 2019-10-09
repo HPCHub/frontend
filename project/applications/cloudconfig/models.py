@@ -122,6 +122,11 @@ class ConfigRequest(models.Model):
             return ''
         return str(json.loads(self.data).get('solver_type'))
 
+    def optimisation_target(self):
+        if not self.data:
+            return ''
+        return str(json.loads(self.data).get('optimisation_target'))
+
 
     def get_admin_url(self):
         content_type = ContentType.objects.get_for_model(self.__class__)
