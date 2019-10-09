@@ -60,7 +60,11 @@
 
 {% block after_related_objects %}{% endblock %}
 
-{% block submit_buttons_bottom %}{% submit_row %}{% endblock %}
+{% block submit_buttons_bottom %}
+{% if request.user.is_superuser %}
+  {% submit_row %}
+  {% endif %}
+{% endblock %}
 
 {% block admin_change_form_document_ready %}
     <script type="text/javascript"
