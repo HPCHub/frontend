@@ -157,6 +157,10 @@ class ConfigRequest(models.Model):
             return '{} - {} - {}'.format(self.name, self.user.username, self.created_at)
         return '{} - {}'.format(self.user.username, self.created_at)
 
+    class Meta:
+        verbose_name = 'Configuration request'
+        verbose_name_plural = 'Configuration requests'
+
 
 class ConfigRequestResult(models.Model):
     TYPES = (
@@ -206,6 +210,10 @@ class ConfigRequestResult(models.Model):
 
     def __str__(self):
         return '{} - {}'.format(self.config_request, self.provider.name)
+
+    class Meta:
+        verbose_name = 'Configuration suggestion'
+        verbose_name_plural = 'Configuration suggestions'
 
 class LaunchHistory(models.Model, ModelDiffMixin):
     hashed_id = models.UUIDField(
