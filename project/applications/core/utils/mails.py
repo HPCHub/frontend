@@ -25,7 +25,7 @@ def send_repeated_mail(email, request_url):
         fail_silently=False,
     )
 
-def send_machine_credentials_mail(user_mail, ip_data, key_data, single_id):
+def send_machine_credentials_mail(user_mail, ip_data, key_data, filename):
     mail = MachineCredentialsEmailText.objects.last()
     email = EmailMessage(
         mail.title,
@@ -33,8 +33,8 @@ def send_machine_credentials_mail(user_mail, ip_data, key_data, single_id):
         settings.DEFAULT_FROM_EMAIL,
         [user_mail],
     )
-    with open('temp/{}-key.txt'.format(single_id), 'w+') as key_file:
+    with open('temp/{}.txt'.format(filename), 'w+') as key_file:
         key_file.write(key_data)
         key_file.close()
-    email.attach_file('temp/{}-key.txt'.format(single_id))
+    email.attach_file('temp/{}.txt'.format(filename))
     email.send(fail_silently=False)

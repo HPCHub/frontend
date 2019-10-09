@@ -100,7 +100,7 @@ class ConfigRequest(models.Model):
         editable=False
     )
     name = models.CharField(
-        max_length=80, null=True, blank=True
+        max_length=30, null=True, blank=True
     )
     user = models.ForeignKey(
         User, verbose_name='User', on_delete=models.CASCADE, null=True, blank=True
@@ -276,6 +276,23 @@ class LaunchHistory(models.Model, ModelDiffMixin):
 
     colored_status.allow_tags = True
     colored_status.short_description = 'Cloud status'
+
+
+    def get_machine_ip(self):
+        if self.status == 'running':
+            return self.machine_ip
+        elif self.status == 'starting':
+            return 'Please wait... Data will be available here and on your email'
+        return '-'
+
+    def get_keyfile_url(self):
+        if self.status == 'Running':
+            return mark_safe('<a href="/cloudconfig/keyfile/{}">Download SSHkey</a>'.format(str(self.pk)))
+        elif self.status == 'starting':
+            return 'Please wait... Data will be available here and on your email'
+        return '-'
+    get_keyfile_url.allow_tags = True
+    get_keyfile_url.short_description = 'Download SSHkey'
 
     def get_admin_url(self):
         content_type = ContentType.objects.get_for_model(self.__class__)

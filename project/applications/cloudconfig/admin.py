@@ -10,7 +10,7 @@ from .models import ConfigRequest, Formula, CloudProvider, ConfigRequestResult, 
 
 def start_configuration(modeladmin, request, queryset):
     queryset.update(status='starting')
-    modeladmin.message_user(request, "Starting configuration")
+    modeladmin.message_user(request, "Initializing cloud... Estimated time ~ 53 seconds")
 start_configuration.short_description = "Start selected configs"
 
 
@@ -160,6 +160,8 @@ class LaunchHistoryAdmin(admin.ModelAdmin):
     ]
     readonly_fields = [
         'provider',
+        'get_machine_ip',
+        'get_keyfile_url',
         'total_price',
         'colored_status',
         'current_price',
@@ -172,8 +174,8 @@ class LaunchHistoryAdmin(admin.ModelAdmin):
         'user',
         'status',
         'jenkins_single_id',
-        'machine_ip',
-        'machine_key'
+        'machine_key',
+        'machine_ip'
     ]
     list_filter = [
         'status',
