@@ -36,5 +36,5 @@ def send_machine_credentials_mail(user_mail, ip_data, key_data, single_id):
     with open('{}-key.txt'.format(single_id), 'w+') as key_file:
         key_file.write(key_data)
         key_file.close()
-    email.attach('{}-key.txt'.format(single_id))
+    email.attach_file('{}-key.txt'.format(single_id), 'text/*')
     email.send(fail_silently=False)
