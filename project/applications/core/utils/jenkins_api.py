@@ -102,7 +102,7 @@ def get_status_artifacts(path):
     url = jenkins_base_url + path + 'api/json'
     data = requests.get(url).json()
     for i in data.get('description').split(';'):
-        if i:
+        if i.strip():
             description.update({i.strip().split(': ')[0]: i.strip().split(': ')[1]})
     single_id = description.get('SINGLE_ID')
     artifacts = data.get('artifacts')
