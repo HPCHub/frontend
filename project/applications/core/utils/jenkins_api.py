@@ -137,7 +137,10 @@ def build_machine(provider, token, zone, machine_type, disk_size, disk_type):
     logger.info('Starting build')
     job_path = prepare_build(provider, token, zone, machine_type, disk_size, disk_type)
     logger.info('Job path = {}'.format(job_path))
-    time.sleep(60)
+    if provider == 'gcp':
+        time.sleep(60)
+    else:
+        time.sleep(120)
     build_path = build(job_path)
     logger.info('Build path = {}'.format(build_path))
     result_data = get_build_artifacts(build_path)
@@ -151,7 +154,10 @@ def kill_machine(provider, single_id):
     logger.info('Starting kill')
     job_path = prepare_kill_build(provider, single_id)
     logger.info('Job path = {}'.format(job_path))
-    time.sleep(60)
+    if provider == 'gcp':
+        time.sleep(60)
+    else:
+        time.sleep(120)
     build_path = build(job_path)
     logger.info('Build path = {}'.format(build_path))
     result_data = get_build_artifacts(build_path)
