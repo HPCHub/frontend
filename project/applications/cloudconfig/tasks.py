@@ -13,7 +13,10 @@ def build_machine(launch_pk):
     time.sleep(3)
     LaunchHistory.objects.all()
     launch = LaunchHistory.objects.get(hashed_id=launch_pk)
-    single_id, ip_data, key_data = jenkins_api.build_machine()
+    if launch.provider.name == 'Google':
+        single_id, ip_data, key_data = jenkins_api.build_default_gcp()
+    else:
+        single_id, ip_data, key_data = jenkins_api.build_default_oci()
     launch.jenkins_single_id = single_id
     launch.machine_ip = ip_data
     launch.machine_key = key_data
@@ -39,6 +42,9 @@ def build_machine(launch_pk):
 
 
 @task
-def kill_machine(single_id):
-    jenkins_api.kill_machine(single_id)
+def kill_machine(provider, single_id):
+    if provider == 'Google':
+        jenkins_api.kill_machine_gcp(single_id)
+    else:
+        jenkins_api.kill_machine_oci(single_id)
 

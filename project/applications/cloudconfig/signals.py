@@ -56,7 +56,7 @@ def on_new_status(sender, instance, **kwargs):
             launch.total_price = float(launch.current_price().replace(' USD',''))
             launch.skip_signal  = True
             launch.save()
-            kill_machine.apply_async(args=[launch.jenkins_single_id])
+            kill_machine.apply_async(args=[launch.provider.name, launch.jenkins_single_id])
             Transaction.objects.create(
                 from_wallet=instance.launch.user.wallet,
                 to_wallet=Wallet.objects.get(user__username='admin'),

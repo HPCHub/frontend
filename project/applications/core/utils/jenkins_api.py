@@ -16,8 +16,13 @@ jenkins_base_url = '{}{}:{}@{}'.format(
 )
 
 
-def prepare_build(token='gcp', zone='europe-north1-a', machine_type='n1-highcpu-2', disk_size='50GB', disk_type='pd-ssd'):
-    url = jenkins_base_url + '/job/gcp_single_deploy/buildWithParameters'
+def prepare_build(provider, token, zone, machine_type, disk_size, disk_type):
+    if provider == 'gcp:':
+        url = jenkins_base_url + '/job/gcp_single_deploy/buildWithParameters'
+    elif provider == 'oci':
+        url = jenkins_base_url + '/job/oci_single_deploy/buildWithParameters'
+    else:
+        return None
     params = {
         'token': token,
         'ZONE': zone,
@@ -26,21 +31,16 @@ def prepare_build(token='gcp', zone='europe-north1-a', machine_type='n1-highcpu-
         'DISK_TYPE': disk_type
     }
     data = requests.post(url=url, params=params)
-    print(data.url)
-    print(data.headers)
     location = data.headers.get('Location')
     if not location:
         logger.error('Can not request build with error {}'.format(data.headers))
     path = str(urlparse(location).path)
-    time.sleep(30)
     return path
 
 
 def build(path):
     url = jenkins_base_url + path + 'api/json'
     data = requests.get(url).json()
-    print('build_url', url)
-    print(data)
     location = data.get('executable').get('url')
     if not location:
         logger.error('Can not request build with error {}'.format(data.content))
@@ -75,14 +75,16 @@ def get_build_artifacts(path):
 
 def get_single_artifact(path, artifact_path):
     url = jenkins_base_url + path + 'artifact/' + artifact_path
-    print('artifact', url)
     data = requests.get(url)
-    print(data)
-    print(data.content)
     return data.text
 
-def prepare_status_build(single_id):
-    url = jenkins_base_url + '/job/gcp_single_status/buildWithParameters'
+def prepare_status_build(provider, single_id):
+    if provider == 'gcp:':
+        url = jenkins_base_url + '/job/gcp_single_status/buildWithParameters'
+    elif provider == 'oci':
+        url = jenkins_base_url + '/job/oci_single_status/buildWithParameters'
+    else:
+        return None
     params = {'SINGLE_ID': single_id}
     data = requests.post(url=url, params=params)
     location = data.headers.get('location')
@@ -113,8 +115,13 @@ def get_status_artifacts(path):
     return result_data
 
 
-def prepare_kill_build(single_id):
-    url = jenkins_base_url + '/job/gcp_single_remove/buildWithParameters'
+def prepare_kill_build(provider, single_id):
+    if provider == 'gcp:':
+        url = jenkins_base_url + '/job/gcp_single_remove/buildWithParameters'
+    elif provider == 'oci':
+        url = jenkins_base_url + '/job/oci_single_remove/buildWithParameters'
+    else:
+        return None
     params = {'SINGLE_ID': single_id}
     data = requests.post(url=url, params=params)
     location = data.headers.get('location')
@@ -124,9 +131,9 @@ def prepare_kill_build(single_id):
     return path
 
 
-def build_machine(token='gcp', zone='europe-north1-a', machine_type='n1-highcpu-2', disk_size='50GB', disk_type='pd-ssd'):
+def build_machine(provider, token, zone, machine_type, disk_size, disk_type):
     logger.info('Starting build')
-    job_path = prepare_build(token, zone, machine_type, disk_size, disk_type)
+    job_path = prepare_build(provider, token, zone, machine_type, disk_size, disk_type)
     logger.info('Job path = {}'.format(job_path))
     time.sleep(60)
     build_path = build(job_path)
@@ -138,9 +145,9 @@ def build_machine(token='gcp', zone='europe-north1-a', machine_type='n1-highcpu-
     key_data = get_single_artifact(build_path, result_data.get('key_path'))
     return single_id, ip_data, key_data
 
-def kill_machine(single_id):
+def kill_machine(provider, single_id):
     logger.info('Starting kill')
-    job_path = prepare_kill_build(single_id)
+    job_path = prepare_kill_build(provider, single_id)
     logger.info('Job path = {}'.format(job_path))
     time.sleep(60)
     build_path = build(job_path)
@@ -148,3 +155,18 @@ def kill_machine(single_id):
     result_data = get_build_artifacts(build_path)
     logger.info('Result = {}'.format(result_data))
     return result_data
+
+
+def build_default_gcp():
+    return build_machine(provider='gcp', token='cbs', zone='europe-north1-a', machine_type='n1-highcpu-2', disk_size='50GB',
+                  disk_type='pd-ssd')
+
+def build_default_oci():
+    return build_machine(provider='oci', token='cbs', zone='​fomL:US-ASHBURN-AD-3', machine_type='​VM.Standard2.2', disk_size='50GB',
+                  disk_type='pd-ssd')
+
+def kill_machine_gcp(single_id):
+    return kill_machine('gcp', single_id)
+
+def kill_machine_oci(single_id):
+    return kill_machine('oci', single_id)
