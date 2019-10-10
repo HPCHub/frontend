@@ -98,30 +98,12 @@ def on_new_config_request(sender, instance, **kwargs):
                     provider=formula.provider,
                     cores=cores,
                     ram_memory=ram,
+                    config_type='price',
                     storage_size=storage_size,
                     storage_type=storage_type,
                     price_per_hour=hourly_price
                 )
                 result.save()
-
-                storage_type = 'hdd'
-                hourly_price = \
-                    formula.provider._meta.get_field(storage_types.get(storage_type)).value_from_object(
-                        formula.provider) * float(storage_size*0.75) + \
-                    formula.provider.core_price * float(cores*0.75) + \
-                    formula.provider.mem_price * float(ram*0.75)
-                result_price = ConfigRequestResult.objects.create(
-                    user=instance.user,
-                    config_request=instance,
-                    provider=formula.provider,
-                    cores=cores*3/4,
-                    config_type='price',
-                    ram_memory=ram*3/4,
-                    storage_size=storage_size*3/4,
-                    storage_type=storage_type,
-                    price_per_hour=hourly_price
-                )
-                result_price.save()
 
                 storage_type = 'ssd'
                 hourly_price = \
@@ -141,6 +123,45 @@ def on_new_config_request(sender, instance, **kwargs):
                     price_per_hour=hourly_price
                 )
                 result_speed.save()
+            if formula.provider.name == 'Oracle':
+                data = process_config_request(instance, formula.formula)
+                cores = data[0].get('cores')
+                ram = data[0].get('ram_size')
+                storage_size = data[0].get('hdd_size')
+                storage_type = 'ssd'
+                hourly_price = \
+                    formula.provider._meta.get_field(storage_types.get(storage_type)).value_from_object(
+                        formula.provider) * float(storage_size) + \
+                    formula.provider.core_price * float(cores) + \
+                    formula.provider.mem_price * float(ram)
+                result = ConfigRequestResult.objects.create(
+                    user=instance.user,
+                    config_request=instance,
+                    provider=formula.provider,
+                    cores=cores,
+                    ram_memory=ram,
+                    config_type='price',
+                    storage_size=storage_size,
+                    storage_type=storage_type,
+                    price_per_hour=hourly_price
+                )
+                result.save()
 
-
-                return result
+                storage_type = 'ssd'
+                hourly_price = \
+                    formula.provider._meta.get_field(storage_types.get(storage_type)).value_from_object(
+                        formula.provider) * float(storage_size * 2) + \
+                    formula.provider.core_price * float(cores * 2) + \
+                    formula.provider.mem_price * float(ram * 2)
+                result_speed = ConfigRequestResult.objects.create(
+                    user=instance.user,
+                    config_request=instance,
+                    provider=formula.provider,
+                    cores=cores * 2,
+                    config_type='speed',
+                    ram_memory=ram * 2,
+                    storage_size=storage_size * 2,
+                    storage_type=storage_type,
+                    price_per_hour=hourly_price
+                )
+                result_speed.save()
