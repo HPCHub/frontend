@@ -65,6 +65,8 @@
 {% block submit_buttons_bottom %}
 {% if request.user.is_superuser %}
   {% submit_row %}
+  {% else if opts.verbose_name_plural == 'CONFIGURATION REQUESTS' %}
+  {% submit_row %}
   {% endif %}
 {% endblock %}
 
