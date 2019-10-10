@@ -17,7 +17,7 @@ jenkins_base_url = '{}{}:{}@{}'.format(
 
 
 def prepare_build(provider, token, zone, machine_type, disk_size, disk_type):
-    if provider == 'gcp:':
+    if provider == 'gcp':
         url = jenkins_base_url + '/job/gcp_single_deploy/buildWithParameters'
     elif provider == 'oci':
         url = jenkins_base_url + '/job/oci_single_deploy/buildWithParameters'
@@ -79,7 +79,7 @@ def get_single_artifact(path, artifact_path):
     return data.text
 
 def prepare_status_build(provider, single_id):
-    if provider == 'gcp:':
+    if provider == 'gcp':
         url = jenkins_base_url + '/job/gcp_single_status/buildWithParameters'
     elif provider == 'oci':
         url = jenkins_base_url + '/job/oci_single_status/buildWithParameters'
@@ -116,7 +116,7 @@ def get_status_artifacts(path):
 
 
 def prepare_kill_build(provider, single_id):
-    if provider == 'gcp:':
+    if provider == 'gcp':
         url = jenkins_base_url + '/job/gcp_single_remove/buildWithParameters'
     elif provider == 'oci':
         url = jenkins_base_url + '/job/oci_single_remove/buildWithParameters'
