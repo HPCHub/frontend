@@ -31,6 +31,8 @@ def prepare_build(provider, token, zone, machine_type, disk_size, disk_type):
         'DISK_TYPE': disk_type
     }
     data = requests.post(url=url, params=params)
+    print(data.url)
+    print(data.content)
     location = data.headers.get('Location')
     if not location:
         logger.error('Can not request build with error {}'.format(data.headers))
@@ -162,7 +164,7 @@ def build_default_gcp():
                   disk_type='pd-ssd')
 
 def build_default_oci():
-    return build_machine(provider='oci', token='cbs', zone='​fomL:US-ASHBURN-AD-3', machine_type='​VM.Standard2.2', disk_size='50',
+    return build_machine(provider='oci', token='cbs', zone='fomL:US-ASHBURN-AD-3', machine_type='VM.Standard2.2', disk_size='50',
                   disk_type='default')
 
 def kill_machine_gcp(single_id):
