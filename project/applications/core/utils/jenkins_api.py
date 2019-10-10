@@ -140,7 +140,7 @@ def build_machine(provider, token, zone, machine_type, disk_size, disk_type):
     if provider == 'gcp':
         time.sleep(60)
     else:
-        time.sleep(120)
+        time.sleep(140)
     build_path = build(job_path)
     logger.info('Build path = {}'.format(build_path))
     result_data = get_build_artifacts(build_path)
@@ -157,7 +157,7 @@ def kill_machine(provider, single_id):
     if provider == 'gcp':
         time.sleep(60)
     else:
-        time.sleep(120)
+        time.sleep(140)
     build_path = build(job_path)
     logger.info('Build path = {}'.format(build_path))
     result_data = get_build_artifacts(build_path)
