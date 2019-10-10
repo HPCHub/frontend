@@ -162,8 +162,8 @@ def build_default_gcp():
                   disk_type='pd-ssd')
 
 def build_default_oci():
-    return build_machine(provider='oci', token='cbs', zone='​fomL:US-ASHBURN-AD-3', machine_type='​VM.Standard2.2', disk_size='50GB',
-                  disk_type='pd-ssd')
+    return build_machine(provider='oci', token='cbs', zone='​fomL:US-ASHBURN-AD-3', machine_type='​VM.Standard2.2', disk_size='50',
+                  disk_type='default')
 
 def kill_machine_gcp(single_id):
     return kill_machine('gcp', single_id)
