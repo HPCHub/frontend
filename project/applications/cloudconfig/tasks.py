@@ -1,6 +1,7 @@
 import time
 
 import re
+
 from django.utils import timezone
 from core.utils.mails import send_machine_credentials_mail
 from celery.task import task
@@ -48,3 +49,9 @@ def kill_machine(provider, single_id):
     else:
         jenkins_api.kill_machine_oci(single_id)
 
+
+@task
+def process_balance():
+    running_instances = LaunchHistory.objects.filter(status='running')
+    for instance in running_instances:
+        pass
