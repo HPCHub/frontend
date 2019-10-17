@@ -129,6 +129,10 @@ def prepare_kill_build(provider, single_id):
     location = data.headers.get('location')
     if not location:
         logger.error('Can not request build with error {}'.format(data.content))
+        data = requests.post(url=url, params=params)
+        location = data.headers.get('location')
+    if not location:
+        logger.error('Can not request build again with error {}'.format(data.content))
     path = urlparse(location).path
     return path
 
