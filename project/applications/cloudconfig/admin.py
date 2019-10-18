@@ -106,7 +106,7 @@ class ConfigRequestResultAdmin(admin.ModelAdmin):
     model = ConfigRequestResult
 
     readonly_fields = [
-        'provider',
+        'show_provider_icon',
         'user',
         'config_request',
         'config_type',
@@ -118,7 +118,8 @@ class ConfigRequestResultAdmin(admin.ModelAdmin):
     ]
     exclude = [
         'data',
-        'price_per_hour'
+        'price_per_hour',
+        'provider'
     ]
 
     change_form_template = 'cloudconfig/run_configs.html'
