@@ -1,11 +1,64 @@
 {% extends 'admin/change_form.html' %}
+<SCRIPT type=text/javascript>
+function eatFood(pk) {
+    window.location.replace('/cloudconfig/start_config/'+pk);
+    return true;
+}
+</SCRIPT>
 {% load static %}
 {% block submit_buttons_bottom %}
+
+<style>
+	/* FORM BUTTONS */
+
+.button_custom_my {
+    background: #47bac1;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-size: larger;
+    cursor: pointer;
+    width: 100%;
+
+}
+
+a.button_custom_my {
+    padding: 4px 5px;
+}
+
+.button_custom_my:active,
+.button_custom_my:focus,
+.button_custom_my:hover {
+    background: #609ab6;
+}
+
+.button_custom_my[disabled] {
+    opacity: 0.4;
+}
+
+
+.button_custom_my:active,
+.button_custom_my:focus,
+.button_custom_my:hover {
+    background: #205067;
+}
+
+.button_custom_my[disabled] {
+    opacity: 0.4;
+}
+
+</style>
 {% if status != 'killed' %}
 <div class="submit-row">
 	<input type="submit" class="default" value="Kill this instance" name="_kill-instance"
 	       style="color:white;background-color: crimson;width: 100%">
 </div>
+{% endif %}
+{% if status == 'killed' %}
+   <div class="submit-row">
+     <button type="button" class="button_custom_my" onclick="eatFood('{{original.config_request_result.pk}}')">Repeat this configuration    ▶️</button>
+  </div>
 {% endif %}
 {{ block.super }}
 <SCRIPT type=text/javascript>
