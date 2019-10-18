@@ -17,13 +17,13 @@ start_configuration.short_description = "Start selected configs"
 class ConfigRequestResultInline(admin.StackedInline):
     model = ConfigRequestResult
     extra = 0
-    readonly_fields = ['config_type', 'cores', 'ram_memory', 'storage_type', 'storage_size', 'price_per_hour', 'show_provider_icon']
+    readonly_fields = ['config_type', 'cores', 'ram_memory', 'storage_type', 'storage_size', 'per_hour_price', 'show_provider_icon']
     show_change_link = True
 
     fieldsets = (
         ('General', {
             'classes': ('wide', 'extrapretty'),
-            'fields': ('config_type', 'price_per_hour', 'show_provider_icon', )
+            'fields': ('show_provider_icon', 'config_type', 'per_hour_price',  )
         }),
         ('Hardware info', {
             'classes': ('wide', 'extrapretty'),
@@ -35,9 +35,12 @@ class ConfigRequestResultInline(admin.StackedInline):
 class ConfigRequestAdmin(admin.ModelAdmin):
     model = ConfigRequest
     inlines = [ConfigRequestResultInline, ]
+    ordering = ['-created_at',]
+
     list_display = [
+        'name',
         'user',
-        'created_at',
+        'submitted',
         'software_type',
         'solver_type',
         'optimisation_target',
@@ -47,10 +50,11 @@ class ConfigRequestAdmin(admin.ModelAdmin):
     ]
     search_fields = [
         'user',
+        'name',
     ]
     readonly_fields = [
         'user',
-        'created_at',
+        'submitted',
         #'user_data',
         'software_type',
         'solver_type',
@@ -104,6 +108,19 @@ class FormulaAdmin(admin.ModelAdmin):
 
 class ConfigRequestResultAdmin(admin.ModelAdmin):
     model = ConfigRequestResult
+    list_display = [
+        'user',
+        'request_name',
+        'name',
+        'config_type',
+        'show_provider_icon'
+    ]
+    list_display_links = [
+        'request_name',
+        'name',
+        'config_type',
+        #'show_provider_icon'
+    ]
 
     readonly_fields = [
         'show_provider_icon',

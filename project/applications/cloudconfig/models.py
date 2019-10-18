@@ -101,7 +101,8 @@ class ConfigRequest(models.Model):
         editable=False
     )
     name = models.CharField(
-        max_length=30, null=True, blank=True
+        max_length=30, null=True, blank=True,
+        default='Request'
     )
     user = models.ForeignKey(
         User, verbose_name='User', on_delete=models.CASCADE, null=True, blank=True
@@ -134,6 +135,8 @@ class ConfigRequest(models.Model):
         elif self.solver_type() == 'Mechanical':
             return 'Mesh size : {}'.format(str(json.loads(self.data).get('mesh_size')))
 
+    def submitted(self):
+        return self.created_at.strftime("%Y-%m-%d %H:%M")
 
     def get_admin_url(self):
         content_type = ContentType.objects.get_for_model(self.__class__)
@@ -159,9 +162,7 @@ class ConfigRequest(models.Model):
 
 
     def __str__(self):
-        if self.name:
-            return '{} - {} - {}'.format(self.name, self.user.username, self.created_at)
-        return '{} - {}'.format(self.user.username, self.created_at)
+        return '{} - {}'.format(self.name, self.created_at.strftime("%Y-%m-%d %H:%M"))
 
     class Meta:
         verbose_name = 'Configuration request'
@@ -173,6 +174,10 @@ class ConfigRequestResult(models.Model):
         ('optimal', 'Optimal $$'),
         ('speed', 'Speed $$$'),
         ('price', 'Low price $'),
+    )
+    name = models.CharField(
+        max_length=30, null=True, blank=True,
+        default='Result'
     )
 
     hashed_id = models.UUIDField(
@@ -213,6 +218,9 @@ class ConfigRequestResult(models.Model):
 
     def per_hour_price(self):
         return '{} USD'.format(self.price_per_hour)
+
+    def request_name(self):
+        return self.config_request.name
 
     def show_provider_icon(self):
         if self.provider.name == 'Google':
