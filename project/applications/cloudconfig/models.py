@@ -215,8 +215,10 @@ class ConfigRequestResult(models.Model):
         return '{} USD'.format(self.price_per_hour)
 
     def show_provider_icon(self):
-        if self.provider.name in ('Google', 'Oracle'):
-            return mark_safe('<img src="/static/cloudconfig/{}_icon.png" width="128" height="128"/>').format(self.provider.name)
+        if self.provider.name == 'Google':
+            return format_html('<img src="/static/cloudconfig/Google_icon.png"/>')
+        elif self.provider.name == 'Oracle':
+            return format_html('<img src="/static/cloudconfig/Oracle_icon.png"/>')
         else:
             return self.provider.name
     show_provider_icon.allow_tags = True
