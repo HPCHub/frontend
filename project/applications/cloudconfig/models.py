@@ -216,7 +216,7 @@ class ConfigRequestResult(models.Model):
 
     def show_provider_icon(self):
         if self.provider.name in ('Google', 'Oracle'):
-            return '<img src="/static/cloudconfig/{}_icon.png"/>'.format(self.provider.name)
+            return mark_safe('<img src="/static/cloudconfig/{}_icon.png"/>').format(self.provider.name)
         else:
             return self.provider.name
     show_provider_icon.allow_tags = True
