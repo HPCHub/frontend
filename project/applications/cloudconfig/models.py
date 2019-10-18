@@ -321,10 +321,16 @@ class LaunchHistory(models.Model, ModelDiffMixin):
 
     def get_machine_ip(self):
         if self.status == 'running':
-            return self.machine_ip
+            if self.provider == 'Google':
+                return 'user@{}'.format(self.machine_ip)
+            elif self.provider == 'Oracle':
+                return 'opc@{}'.format(self.machine_ip)
+            else:
+                return self.machine_ip
         elif self.status == 'starting':
             return 'Please wait... Data will be available here and on your email'
         return '-'
+    get_machine_ip.short_description = 'SSH login'
 
     def get_keyfile_url(self):
         if self.status == 'running':
@@ -338,6 +344,11 @@ class LaunchHistory(models.Model, ModelDiffMixin):
     def get_admin_url(self):
         content_type = ContentType.objects.get_for_model(self.__class__)
         return reverse("admin:%s_%s_change" % (content_type.app_label, content_type.model), args=(self.hashed_id,))
+
+
+    class Meta:
+        verbose_name = 'Launch history'
+        verbose_name_plural = 'Launch history'
 
 
 
