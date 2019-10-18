@@ -17,17 +17,17 @@ start_configuration.short_description = "Start selected configs"
 class ConfigRequestResultInline(admin.StackedInline):
     model = ConfigRequestResult
     extra = 0
-    readonly_fields = ['config_type', 'cores', 'ram_memory', 'storage_type', 'storage_size', 'price_per_hour', 'provider']
+    readonly_fields = ['config_type', 'cores', 'ram_memory', 'storage_type', 'storage_size', 'price_per_hour', 'show_provider_icon']
     show_change_link = True
 
     fieldsets = (
         ('General', {
             'classes': ('wide', 'extrapretty'),
-            'fields': ('config_type', 'price_per_hour', 'provider', )
+            'fields': ('config_type', 'price_per_hour', 'show_provider_icon', )
         }),
         ('Hardware info', {
             'classes': ('wide', 'extrapretty'),
-            'fields': (('storage_type', 'storage_size'), 'cores', 'ram_memory', ),
+            'fields': ('storage_type', 'storage_size', 'cores', 'ram_memory', ),
         }),
     )
 

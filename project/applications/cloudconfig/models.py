@@ -170,9 +170,9 @@ class ConfigRequest(models.Model):
 
 class ConfigRequestResult(models.Model):
     TYPES = (
-        ('optimal', 'Optimal'),
-        ('speed', 'Speed'),
-        ('price', 'Price'),
+        ('optimal', 'Optimal $$'),
+        ('speed', 'Speed $$$'),
+        ('price', 'Low price $'),
     )
 
     hashed_id = models.UUIDField(
@@ -216,9 +216,9 @@ class ConfigRequestResult(models.Model):
 
     def show_provider_icon(self):
         if self.provider.name == 'Google':
-            return format_html('<img src="/static/cloudconfig/Google_icon.png"/>')
+            return format_html('<img src="/static/cloudconfig/Google_icon.png" width=178 height=70/>')
         elif self.provider.name == 'Oracle':
-            return format_html('<img src="/static/cloudconfig/Oracle_icon.png"/>')
+            return format_html('<img src="/static/cloudconfig/Oracle_icon.png" width=178 height=70/>')
         else:
             return self.provider.name
     show_provider_icon.allow_tags = True
