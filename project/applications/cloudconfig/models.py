@@ -230,9 +230,9 @@ class ConfigRequestResult(models.Model):
 
     def show_provider_icon(self):
         if self.provider.name == 'Google':
-            return format_html('<img src="/static/cloudconfig/Google_icon.png" width=178 height=70/>')
+            return format_html('<img src="/static/cloudconfig/Google_icon.png" width=128 height=50/>')
         elif self.provider.name == 'Oracle':
-            return format_html('<img src="/static/cloudconfig/Oracle_icon.png" width=178 height=70/>')
+            return format_html('<img src="/static/cloudconfig/Oracle_icon.png" width=128 height=50/>')
         else:
             return self.provider.name
     show_provider_icon.allow_tags = True
