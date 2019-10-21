@@ -132,8 +132,14 @@ class ConfigRequest(models.Model):
     def params(self):
         if self.solver_type() == 'HFSS':
             return 'Delta S : {}'.format(str(json.loads(self.data).get('delta_s_type')))
-        elif self.solver_type() == 'Mechanical':
+        elif self.solver_type() == 'Mechanical' or self.solver_type() == 'CFD (Fluent & CFX)':
             return 'Mesh size : {}'.format(str(json.loads(self.data).get('mesh_size')))
+        elif self.software_type() == 'WRF':
+            return 'Forecast area: {}\nForecast resolution: {}\nForecast duration: {}'.format(
+                str(json.loads(self.data).get('forecast_area')),
+                str(json.loads(self.data).get('forecast_resolution')),
+                str(json.loads(self.data).get('forecast_duration'))
+            )
 
     def submitted(self):
         return self.created_at.strftime("%Y-%m-%d %H:%M")
